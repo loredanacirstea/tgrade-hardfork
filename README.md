@@ -62,8 +62,8 @@ tgrade export --home=./testnet/node0/tgrade > ./testnet/tgrade_state_export.json
 
 tgrade tendermint unsafe-reset-all --home=./testnet/node00/tgrade
 
-# create your ./testnet/validators.json with an JSON array of whitelisted bech32 validator addresses, one of which should be your `node0` address e.g.
-# ["tgrade18q2le253fl6d9jjuq0qp7w95pfqwfks9acycs2"]
+# create your ./testnet/validators.json with whitelisted bech32 validator addresses, one of which should be your `node0` address and oversight member addresses e.g.
+# {"validators":["tgrade18q2le253fl6d9jjuq0qp7w95pfqwfks9acycs2"],"oversight":["tgrade18q2le253fl6d9jjuq0qp7w95pfqwfks9acycs2"]}
 
 tgrade migrate-genesis-with-validatorset ./testnet/tgrade_state_export.json ./testnet/tgrade_state_export_migrated.json 2 ./testnet/validators.json && rm ./testnet/node00/tgrade/config/genesis.json && cp ./testnet/tgrade_state_export_migrated.json ./testnet/node00/tgrade/config/genesis.json
 
