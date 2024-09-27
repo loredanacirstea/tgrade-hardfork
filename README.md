@@ -6,7 +6,9 @@ https://github.com/loredanacirstea/tgrade/tree/tgrade-hardfork
 New Genesis:
 (link todo)
 
-Genesis checksum: `TODO`
+* checksum new genesis: `TODO`
+
+* checksum Tgrade exported genesis (on which the migration was done): `4010dfff93d5e29f951b53b6414a5a15ca957baa022cf5b632ea76f91113da8a`
 
 Note: after the chain is live, we will need to analyze the data, try some transactions, make sure everything behaves as expected for at least 1 day, before we can consider the chain alive again.
 
