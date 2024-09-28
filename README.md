@@ -10,7 +10,7 @@ New Genesis:
 
 * checksum Tgrade exported genesis (on which the migration was done): `4010dfff93d5e29f951b53b6414a5a15ca957baa022cf5b632ea76f91113da8a`
 
-(Note: the exported genesis contains a timestamp `"genesis_time":""` that you will have to replace to get the above checksum) 
+(Note: the exported genesis contains a timestamp `"genesis_time":"2022-06-27T12:00:01Z"` that you will have to replace it to get the above checksum) 
 
 After the chain is live, we will need to analyze the data, try some transactions, make sure everything behaves as expected for at least 1 day, before we can consider the chain alive again.
 
