@@ -8,8 +8,6 @@ https://github.com/loredanacirstea/tgrade-hardfork/raw/refs/heads/main/tgrade_st
 
 * checksum new genesis: `0db60740680dcf67483a4005613b339fe899337aafde8fe07e30c048c733b4f0`
 
-(Note: the exported genesis contains a timestamp `"genesis_time":"2022-06-27T12:00:01Z"` that you will have to replace it to get the above checksum) 
-
 After the chain is live, we will need to analyze the data, try some transactions, make sure everything behaves as expected for at least 1 day, before we can consider the chain alive again.
 
 ## Process
