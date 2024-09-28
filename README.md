@@ -22,7 +22,7 @@ git clone git@github.com:loredanacirstea/tgrade.git
 git checkout tgrade-hardfork
 make install
 ```
-* only have active validators in your `persistent_peers=""` from `./config/config.toml` 
+* only have active validators in your `persistent_peers=""` and `seeds=""` from `./config/config.toml`
 * start node
 
 ## Reproduce hard-fork genesis:
