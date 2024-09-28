@@ -10,7 +10,9 @@ New Genesis:
 
 * checksum Tgrade exported genesis (on which the migration was done): `4010dfff93d5e29f951b53b6414a5a15ca957baa022cf5b632ea76f91113da8a`
 
-Note: after the chain is live, we will need to analyze the data, try some transactions, make sure everything behaves as expected for at least 1 day, before we can consider the chain alive again.
+(Note: the exported genesis contains a timestamp `"genesis_time":""` that you will have to replace to get the above checksum) 
+
+After the chain is live, we will need to analyze the data, try some transactions, make sure everything behaves as expected for at least 1 day, before we can consider the chain alive again.
 
 ## Process
 
@@ -55,19 +57,41 @@ tgrade migrate-genesis-with-validatorset ./tgrade_state_export.json ./tgrade_sta
 
 You can also test on a local chain that you start with 2+ validators. Then stop the chain, export the genesis, migrate it to only remain with 1+ validator, then see if the chain restarts.
 
+Example for 4 nodes. Replace the addresses with your local setup.
 ```sh
-tgrade testnet --chain-id=testing --output-dir=$(pwd)/testnet --v=2 --keyring-backend=test --commit-timeout=1500ms --minimum-gas-prices=""
+tgrade testnet --chain-id=testing --output-dir=$(pwd)/testnet --v=4 --single-host --keyring-backend=test --commit-timeout=1500ms --minimum-gas-prices="" --starting-ip-address=127.0.0.1
 
+tgrade start --home=./testnet/node0/tgrade
+tgrade start --home=./testnet/node1/tgrade
+tgrade start --home=./testnet/node2/tgrade
+tgrade start --home=./testnet/node3/tgrade
+
+# leave chain running for > 20 blocks, then stop the nodes and export the genesis:
 tgrade export --home=./testnet/node0/tgrade > ./testnet/tgrade_state_export.json
 
-# copy node0 -> node00 & reset state
+# copy the nodes you want to remain with e.g.
+# ./testnet/node1 -> ./testnet/node11
+# ./testnet/node2 -> ./testnet/node22
+# reset the state for node11, node22
 
-tgrade tendermint unsafe-reset-all --home=./testnet/node00/tgrade
+tgrade tendermint unsafe-reset-all --home=./testnet/node11/tgrade
+tgrade tendermint unsafe-reset-all --home=./testnet/node22/tgrade
 
-# create your ./testnet/validators.json with whitelisted bech32 validator addresses, one of which should be your `node0` address and oversight member addresses e.g.
-# {"validators":["tgrade18q2le253fl6d9jjuq0qp7w95pfqwfks9acycs2"],"oversight":["tgrade18q2le253fl6d9jjuq0qp7w95pfqwfks9acycs2"]}
+# keep only your node1 & node2 persistent peers in `./config/config.toml`
+# `persistent_peers=""`
 
-tgrade migrate-genesis-with-validatorset ./testnet/tgrade_state_export.json ./testnet/tgrade_state_export_migrated.json 2 ./testnet/validators.json && rm ./testnet/node00/tgrade/config/genesis.json && cp ./testnet/tgrade_state_export_migrated.json ./testnet/node00/tgrade/config/genesis.json
+# create your ./testnet/validators.json with whitelisted bech32 validator addresses from node1 and node2 address and oversight member addresses e.g.
+# {"validators":["tgrade1expjfylgfkrz2uc99w0s5zmng8f7km537erm4s","tgrade1wq8ja2239jzq3zfj8snmrku0cwnalpw85muc8n"],"oversight":["tgrade1c8jdd3xfzaq03fm6awf7j45zcvh49g7clhtc5r"]}
+# get oversight member addresses from:
+tgrade keys list --keyring-backend=test --home=./testnet/node0/tgrade
+# get validator addresses from
+tgrade keys list --keyring-backend=test --home=./testnet/node11/tgrade
+tgrade keys list --keyring-backend=test --home=./testnet/node22/tgrade
 
-tgrade start --home=./testnet/node00/tgrade
+# migrate your exported genesis
+tgrade migrate-genesis-with-validatorset ./testnet/tgrade_state_export.json ./testnet/tgrade_state_export_migrated.json 2 ./testnet/validators.json && cp ./testnet/tgrade_state_export_migrated.json ./testnet/node11/tgrade/config/genesis.json && cp ./testnet/tgrade_state_export_migrated.json ./testnet/node22/tgrade/config/genesis.json
+
+tgrade start --home=./testnet/node11/tgrade
+tgrade start --home=./testnet/node22/tgrade
+
 ```
