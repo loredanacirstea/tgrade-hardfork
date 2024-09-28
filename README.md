@@ -1,12 +1,12 @@
 # Tgrade Hard Fork
 
 
-https://github.com/loredanacirstea/tgrade/tree/tgrade-hardfork commit `be7f706720229f8564922f0ac2dbb772d4cdcd24`
+https://github.com/loredanacirstea/tgrade/tree/tgrade-hardfork commit `a38e5bb4633167588c5358092840e17e1de72951`
 
 New Genesis:
 (link todo)
 
-* checksum new genesis: `TODO`
+* checksum new genesis: `0db60740680dcf67483a4005613b339fe899337aafde8fe07e30c048c733b4f0`
 
 (Note: the exported genesis contains a timestamp `"genesis_time":"2022-06-27T12:00:01Z"` that you will have to replace it to get the above checksum) 
 
