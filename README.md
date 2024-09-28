@@ -1,14 +1,12 @@
 # Tgrade Hard Fork
 
 
-https://github.com/loredanacirstea/tgrade/tree/tgrade-hardfork
+https://github.com/loredanacirstea/tgrade/tree/tgrade-hardfork commit `be7f706720229f8564922f0ac2dbb772d4cdcd24`
 
 New Genesis:
 (link todo)
 
 * checksum new genesis: `TODO`
-
-* checksum Tgrade exported genesis (on which the migration was done): `4010dfff93d5e29f951b53b6414a5a15ca957baa022cf5b632ea76f91113da8a`
 
 (Note: the exported genesis contains a timestamp `"genesis_time":"2022-06-27T12:00:01Z"` that you will have to replace it to get the above checksum) 
 
@@ -36,16 +34,34 @@ Migration code is in https://github.com/loredanacirstea/tgrade/blob/tgrade-hardf
 * export your current Tgrade genesis
 
 ```sh
-tgrade export --home=./testnet/node0/tgrade > ./tgrade_state_export.json
+tgrade export --home=./testnet/node0/tgrade > ./tgrade_state_export_initial.json
 ```
 
-* migrade genesis changing the validator set
+* replace your genesis timestamp with the one used to produce above checksum by using `--genesis-time-reset` and `--genesis-time` flags
+
+```sh
+tgrade migrate-genesis-with-validatorset ./tgrade_state_export_initial.json ./tgrade_state_export.json 2 ./tgrade_validators.json --genesis-time="2022-06-27T12:00:01Z" --genesis-time-reset  
+```
+
+* check checksum to be  `0a7b76253b6e0b537d2c030d2829feb85b97b5ab50443e561ce3be520513f147`
+
+```
+sha256sum ./tgrade_state_export.json
+```
+
+* migrate genesis changing the validator set
 
 ```sh
 tgrade migrate-genesis-with-validatorset [genesis_file] [output_file] [hardfork_index] [validator_addresses_file]
 
 # example
 tgrade migrate-genesis-with-validatorset ./tgrade_state_export.json ./tgrade_state_export_migrated.json 2 ./tgrade_validators.json
+```
+
+* check checksum
+
+```
+sha256sum ./tgrade_state_export_migrated.json
 ```
 
 ### Utils
