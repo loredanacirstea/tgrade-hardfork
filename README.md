@@ -18,7 +18,7 @@ After the chain is live, we will need to analyze the data, try some transactions
 * replace your existing `./config/genesis.json` with the new genesis
 * build your `tgrade` binary from `tgrade-hardfork` and replace it
 ```
-git clone git@github.com:loredanacirstea/tgrade.git
+git clone https://github.com/loredanacirstea/tgrade.git
 git checkout tgrade-hardfork
 make install
 ```
