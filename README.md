@@ -6,7 +6,7 @@ https://github.com/loredanacirstea/tgrade/tree/tgrade-hardfork commit `7324765b0
 New Genesis:
 https://github.com/loredanacirstea/tgrade-hardfork/raw/refs/heads/main/tgrade_state_export_migrated.json.gz
 
-* checksum new genesis: `e70e0de670a1bfa400f64312c0897432ae2a129afc3d61144e127082b5c4f5e4`
+* checksum new genesis: `a91a2d508f22cffc9d190bd9b3e234deec33fff2f470bb66a5e2013f6c58dc45`
 
 After the chain is live, we will need to analyze the data, try some transactions, make sure everything behaves as expected for at least 1 day, before we can consider the chain alive again.
 
