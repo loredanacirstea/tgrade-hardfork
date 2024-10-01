@@ -1,12 +1,11 @@
 # Tgrade Hard Fork
 
-
-https://github.com/loredanacirstea/tgrade/tree/tgrade-hardfork commit `7324765b03c7258162ceb511f16841afe293be1c`
+https://github.com/loredanacirstea/tgrade/tree/tgrade-hardfork commit `a45496e69df22d7ffb3f13ebf9e7659c619e78a5`
 
 New Genesis:
 https://github.com/loredanacirstea/tgrade-hardfork/raw/refs/heads/main/tgrade_state_export_migrated.json.gz
 
-* checksum new genesis: `a91a2d508f22cffc9d190bd9b3e234deec33fff2f470bb66a5e2013f6c58dc45`
+* checksum new genesis: `d697f000e6002235faa2ad3ffdc2afc42dc3b95af9da514d35636effb33b8a5a`
 
 After the chain is live, we will need to analyze the data, try some transactions, make sure everything behaves as expected for at least 1 day, before we can consider the chain alive again.
 
@@ -16,13 +15,18 @@ After the chain is live, we will need to analyze the data, try some transactions
 * archive your old Tgrade state if you need
 * reset data & private validator state with `tgrade tendermint unsafe-reset-all`
 * replace your existing `./config/genesis.json` with the new genesis
+```
+curl -L -O https://github.com/loredanacirstea/tgrade-hardfork/raw/refs/heads/main/tgrade_state_export_migrated.json.gz
+gunzip tgrade_state_export_migrated.json.gz
+mv ./tgrade_state_export_migrated.json ~/.tgrade/config/genesis.json
+```
 * build your `tgrade` binary from `tgrade-hardfork` and replace it
 ```
 git clone https://github.com/loredanacirstea/tgrade.git
 git checkout tgrade-hardfork
 make install
 ```
-* only have active validators in your `persistent_peers=""` and `seeds=""` from `./config/config.toml`
+* only have active validators in your `persistent_peers` and `seeds` from `./config/config.toml`
 * start node
 
 ## Reproduce hard-fork genesis:
@@ -35,10 +39,10 @@ Migration code is in https://github.com/loredanacirstea/tgrade/blob/tgrade-hardf
 tgrade export --home=./testnet/node0/tgrade > ./tgrade_state_export_initial.json
 ```
 
-* replace your genesis timestamp with the one used to produce above checksum by using `--genesis-time-reset` and `--genesis-time` flags. 
+* replace your genesis timestamp with the one used to produce above checksum by using `--genesis-time-reset` and `--genesis-time` flags.
 
 ```sh
-tgrade migrate-genesis-with-validatorset ./tgrade_state_export_initial.json ./tgrade_state_export.json 2 ./tgrade_validators.json --genesis-time="2022-06-27T12:00:01Z" --genesis-time-reset  
+tgrade migrate-genesis-with-validatorset ./tgrade_state_export_initial.json ./tgrade_state_export.json 2 ./tgrade_validators.json --genesis-time="2022-06-27T12:00:01Z" --genesis-time-reset
 ```
 
 * check checksum to be  `0a7b76253b6e0b537d2c030d2829feb85b97b5ab50443e561ce3be520513f147` (for the old Tgrade state at https://github.com/loredanacirstea/tgrade-hardfork/raw/refs/heads/main/tgrade_state_export.json.gz)
