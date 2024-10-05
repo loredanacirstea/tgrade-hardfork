@@ -42,7 +42,7 @@ tgrade export --home=./testnet/node0/tgrade > ./tgrade_state_export_initial.json
 * replace your genesis timestamp with the one used to produce above checksum by using `--genesis-time-reset` and `--genesis-time` flags.
 
 ```sh
-tgrade migrate-genesis-with-validatorset ./tgrade_state_export_initial.json ./tgrade_state_export.json 2 ./tgrade_validators.json --genesis-time="2022-06-27T12:00:01Z" --genesis-time-reset
+tgrade migrate-genesis-with-validatorset ./tgrade_state_export_initial.json ./tgrade_state_export.json 4 ./validators.json --genesis-time="2022-06-27T12:00:01Z" --genesis-time-reset
 ```
 
 * check checksum to be  `0a7b76253b6e0b537d2c030d2829feb85b97b5ab50443e561ce3be520513f147` (for the old Tgrade state at https://github.com/loredanacirstea/tgrade-hardfork/raw/refs/heads/main/tgrade_state_export.json.gz)
@@ -112,4 +112,16 @@ tgrade migrate-genesis-with-validatorset ./testnet/tgrade_state_export.json ./te
 tgrade start --home=./testnet/node11/tgrade
 tgrade start --home=./testnet/node22/tgrade
 
+```
+
+## Balances analysis
+
+* exported Tgrade state (chain halt state)
+```
+tgrade analyze-genesis-balances /Users/user/dev/blockchain/tgrade-hardfork/tgrade_state_export.json --balance-threshold 1utgd --output-file="./balances.csv"
+```
+
+* migrated Tgrade state (hard-fork state)
+```
+tgrade analyze-genesis-balances /Users/user/dev/blockchain/tgrade-hardfork/tgrade_state_export_migrated.json --balance-threshold 1utgd --output-file="./balances_migrated.csv"
 ```
